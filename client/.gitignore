@@ -1,0 +1,30 @@
+###############################
+# Angular / Node
+###############################
+node_modules/
+dist/
+tmp/
+out-tsc/
+.cache/
+.angular/
+
+###############################
+# Logs
+###############################
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+###############################
+# IDEs and Editors
+###############################
+.vscode/
+.idea/
+*.swp
+
+###############################
+# Misc
+###############################
+.DS_Store
+Thumbs.db
