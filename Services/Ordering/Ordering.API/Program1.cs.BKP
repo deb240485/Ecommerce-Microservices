@@ -1,0 +1,81 @@
+using Asp.Versioning;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
+using Ordering.API.Extensions;
+using Ordering.Application.Extensions;
+using Ordering.Application.Handlers;
+using Ordering.Core.Repositories;
+using Ordering.Infrastructure.Data;
+using Ordering.Infrastructure.Extensions;
+using Ordering.Infrastructure.Repositories;
+using System.Reflection;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+    });
+});
+
+builder.Services.AddApiVersioning(options =>
+{
+    options.ReportApiVersions = true;
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+});
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+builder.Services.AddControllers();
+
+//Register Application Services.
+builder.Services.AddApplicationServices();
+
+builder.Services.AddInfraServices(builder.Configuration);
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ordering.API", Version = "v1" }); });
+
+//Register Infrastructure Services.
+//builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
+var assemblies = new Assembly[]
+{
+    Assembly.GetExecutingAssembly(),
+    typeof(CheckoutOrderCommandHandler).Assembly
+};
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies));
+
+
+
+//builder.Services.AddDbContext<OrderContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("OrderingConnectionString")));
+//builder.Services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
+//builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
+var app = builder.Build();
+
+app.MigrateDatabase<OrderContext>((context, services) => {
+
+    var logger = services.GetService<ILogger<OrderContextSeed>>();
+    OrderContextSeed.SeedAsync(context, logger).Wait();    
+});
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+
+app.UseCors("CorsPolicy");
+
+//app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
