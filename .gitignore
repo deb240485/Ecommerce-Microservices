@@ -44,40 +44,11 @@ Desktop.ini
 $RECYCLE.BIN/
 
 ###############################
-# Client (Angular) – handled separately
+# Angular client (only top-level ignores)
 ###############################
 client/node_modules/
 client/dist/
-client/.angular/cache/
-
-###############################
-# Angular / Node
-###############################
-node_modules/
-dist/
-tmp/
-out-tsc/
-.cache/
-.angular/cache/
-.angular/
-
-###############################
-# Logs
-###############################
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-###############################
-# IDEs and Editors
-###############################
-.vscode/
-.idea/
-*.swp
-
-###############################
-# Misc
-###############################
-.DS_Store
-Thumbs.db
+client/tmp/
+client/out-tsc/
+client/.cache/
+client/.angular/
