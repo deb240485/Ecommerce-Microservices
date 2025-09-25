@@ -74,8 +74,16 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "catalog", "catalog", "{35B5139B-0AD3-4DFF-B4CE-54877AF90373}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "catalog-api", "catalog-api", "{2F209ED7-1553-419D-A13B-51CC170E6036}"
+	ProjectSection(SolutionItems) = preProject
+		Deployments\k8s\catalog\catalog-api\catalog-api.yaml = Deployments\k8s\catalog\catalog-api\catalog-api.yaml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "catalog-db", "catalog-db", "{1401898D-30A4-4E3E-928B-03502E0BA89A}"
+	ProjectSection(SolutionItems) = preProject
+		Deployments\k8s\catalog\catalog-db\catalog-db.yaml = Deployments\k8s\catalog\catalog-db\catalog-db.yaml
+		Deployments\k8s\catalog\catalog-db\mongo-configmap.yaml = Deployments\k8s\catalog\catalog-db\mongo-configmap.yaml
+		Deployments\k8s\catalog\catalog-db\mongo-secret.yaml = Deployments\k8s\catalog\catalog-db\mongo-secret.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
