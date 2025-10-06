@@ -19,7 +19,7 @@ spec:
           image: debexhausted24/catalogapi:latest
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 80
+            - containerPort: 8080
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: Development
@@ -67,5 +67,5 @@ spec:
   ports:
     - protocol: TCP
       port: 8000
-      targetPort: 80
-      nodePort: 31000
+      targetPort: 8080
+      nodePort: 31500
