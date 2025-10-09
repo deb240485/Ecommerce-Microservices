@@ -24,31 +24,31 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'   # or 7.0.x / 6.0.x depending on your project
+          dotnet-version: '8.0.x'
 
       # Step 3: Restore dependencies
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore *.sln
 
       # Step 4: Build solution
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build *.sln --configuration Release --no-restore
 
       # Step 5: Run tests
       - name: Run tests
-        run: dotnet test --configuration Release --no-build --logger "trx;LogFileName=test_results.trx" --results-directory ./TestResults
+        run: dotnet test *.sln --configuration Release --no-build --logger "trx;LogFileName=test_results.trx" --results-directory ./TestResults
 
       # Step 6: Upload test results as artifact
       - name: Upload test results
         uses: actions/upload-artifact@v4
-        if: always()  # ensures upload even if tests fail
+        if: always()
         with:
           name: test-results
           path: ./TestResults/*.trx
 
-      # Step 7: Publish build artifacts (optional)
+      # Step 7: Publish build artifacts
       - name: Publish build output
-        run: dotnet publish --configuration Release --output ./publish
+        run: dotnet publish *.sln --configuration Release --output ./publish --no-build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
