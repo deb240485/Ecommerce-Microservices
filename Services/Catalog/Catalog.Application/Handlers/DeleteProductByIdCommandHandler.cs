@@ -9,11 +9,14 @@ namespace Catalog.Application.Handlers
         private readonly IProductRepository _productRepository;
         public DeleteProductByIdCommandHandler(IProductRepository productRepository)
         {
-            _productRepository = productRepository;
+            _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
         }
         public async Task<bool> Handle(DeleteProductByIdCommand request, CancellationToken cancellationToken)
         {
-            
+            if (cancellationToken.IsCancellationRequested)
+                throw new OperationCanceledException();
+
+
             return await _productRepository.DeleteProduct(request.Id);
         }
     }    

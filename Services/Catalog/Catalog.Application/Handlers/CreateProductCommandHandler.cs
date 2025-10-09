@@ -12,10 +12,16 @@ namespace Catalog.Application.Handlers
         private readonly IProductRepository _productRepository;
         public CreateProductCommandHandler(IProductRepository productRepository)
         {
-           _productRepository = productRepository;     
+           _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));     
         }
         public async Task<ProductResponse> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
+
+            if (cancellationToken.IsCancellationRequested)
+                throw new OperationCanceledException();
+
             var productEntity = ProductMapper.Mapper.Map<Product>(request);
             if(productEntity is null)
             {
