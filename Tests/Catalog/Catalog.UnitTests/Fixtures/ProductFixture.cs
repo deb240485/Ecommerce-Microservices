@@ -12,9 +12,9 @@ namespace Catalog.UnitTests.Fixtures
     /// </summary>
     public class ProductFixture : IDisposable
     {
-        public List<Product> Products { get; private set; }
-        public List<ProductBrand> Brands { get; private set; }
-        public List<ProductType> Types { get; private set; }
+        public List<Product>? Products { get; private set; }
+        public List<ProductBrand>? Brands { get; private set; }
+        public List<ProductType>? Types { get; private set; }
 
         public ProductFixture()
         {
@@ -116,17 +116,17 @@ namespace Catalog.UnitTests.Fixtures
 
         public IEnumerable<Product> GetProductsByBrand(string brandName)
         {
-            return Products.Where(p => p.Brands.Name.Equals(brandName, StringComparison.OrdinalIgnoreCase));
+            return Products!.Where(p => p.Brands.Name.Equals(brandName, StringComparison.OrdinalIgnoreCase));
         }
 
         public IEnumerable<Product> GetProductsByType(string typeName)
         {
-            return Products.Where(p => p.Types.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase));
+            return Products!.Where(p => p.Types.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase));
         }
 
         public IEnumerable<Product> GetProductsByPriceRange(decimal minPrice, decimal maxPrice)
         {
-            return Products.Where(p => p.Price >= minPrice && p.Price <= maxPrice);
+            return Products!.Where(p => p.Price >= minPrice && p.Price <= maxPrice);
         }
 
         public Product CreateSampleProduct()
@@ -146,7 +146,7 @@ namespace Catalog.UnitTests.Fixtures
 
         public Pagination<Product> GetPaginatedProducts(int pageIndex, int pageSize)
         {
-            var totalCount = Products.Count;
+            var totalCount = Products!.Count;
             var pagedProducts = Products
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)

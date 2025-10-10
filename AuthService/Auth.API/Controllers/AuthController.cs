@@ -50,7 +50,7 @@ public class AuthController : ControllerBase
     [Authorize]
     public async Task<ActionResult<ApiResponseDto<bool>>> ValidateToken()
     {
-        return Ok(new ApiResponseDto<bool>
+        return Ok( new ApiResponseDto<bool>
         {
             Success = true,
             Message = "Token is valid",
